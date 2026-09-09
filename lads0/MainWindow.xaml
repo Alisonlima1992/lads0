@@ -5,8 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:lads0"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="500" Width="900">
     <Grid>
-        
+        <Canvas x:Name="Scene" 
+                HorizontalAlignment="Left" 
+                Height="400" 
+                Margin="15,30,0,0" 
+                VerticalAlignment="Top" 
+                Width="680" 
+                Background="White"/>
+
+        <StackPanel Margin="710,30,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Button Content="Произвольный треугольник" Width="150" Margin="0,5"/>
+            <Button Content="Произвольный прямоугольник" Width="150" Margin="0,5"/>
+            <Button Content="Квадрат" Width="150" Margin="0,5"/>
+            <Label Content="Сдвиг по X" Margin="0,30,0,0"/>
+            <Slider x:Name="SliderX" Width="150" Minimum="-100" Maximum="100" Value="0"/>
+            <Label Content="Сдвиг по Y" Margin="0,10,0,0"/>
+            <Slider x:Name="SliderY" Width="150" Minimum="-100" Maximum="100" Value="0"/>
+            <Button Content="Переместить" Width="150" Margin="0,10"/>
+            <Button Content="Очистить" Width="150" Margin="0,5"/>
+        </StackPanel>
     </Grid>
 </Window>
