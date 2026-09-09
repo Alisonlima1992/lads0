@@ -1,29 +1,18 @@
 ﻿using lab0;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace lads0
 {
-    /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         Triangle tr;
         Rectangle rect;
         Random rnd = new Random();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -84,6 +73,9 @@ namespace lads0
 
         public void DrawTriangle(Triangle tr)
         {
+            if (tr == null)
+                return;
+
             DrawLine(tr.P1, tr.P2);
             DrawLine(tr.P2, tr.P3);
             DrawLine(tr.P3, tr.P1);
@@ -92,21 +84,39 @@ namespace lads0
         public void ClearScene()
         {
             Scene.Children.Clear();
+
+        }
+
+        private void ClearAll()
+        {
+            Scene.Children.Clear();
+            tr = null;
+            rect = null;
         }
 
         public void DrawRectangle(Rectangle rect)
         {
-            Point2D[] points = rect.GetPoints();
+            if (rect == null)
+                return;
 
+            Point2D[] points = rect.GetPoints();
             DrawLine(points[0], points[1]);
             DrawLine(points[1], points[2]);
             DrawLine(points[2], points[3]);
             DrawLine(points[3], points[0]);
         }
 
+        private void RandomSquare_Click(object sender, RoutedEventArgs e)
+        {
+            ClearAll();
+            CreateRandomSquare();
+            if (rect != null)
+                DrawRectangle(rect);
+        }
+
         private void RandomTriangle_Click(object sender, RoutedEventArgs e)
         {
-            ClearScene();
+            ClearAll();
             CreateRandomTriangle();
             if (tr != null)
                 DrawTriangle(tr);
@@ -114,21 +124,13 @@ namespace lads0
 
         private void RandomRectangle_Click(object sender, RoutedEventArgs e)
         {
-            ClearScene();
+            ClearAll();
             CreateRandomRectangle();
             if (rect != null)
                 DrawRectangle(rect);
         }
 
-        private void RandomSquare_Click(object sender, RoutedEventArgs e)
-        {
-            ClearScene();
-            CreateRandomSquare();
-            if (rect != null)
-                DrawRectangle(rect);
-        }
-
-        private void DrawSquare_Click(object sender, RoutedEventArgs e)
+        void DrawSquare_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -136,7 +138,7 @@ namespace lads0
                 int y = int.Parse(InputY.Text);
                 int size = int.Parse(InputSize.Text);
 
-                ClearScene();
+                ClearAll();
                 CreateSquareWithParams(x, y, size);
                 if (rect != null)
                     DrawRectangle(rect);
@@ -155,7 +157,7 @@ namespace lads0
                 int y = int.Parse(InputY.Text);
                 int size = int.Parse(InputSize.Text);
 
-                ClearScene();
+                ClearAll();
                 Point2D p1 = new Point2D(x, y);
                 Point2D p2 = new Point2D(x + size, y);
                 Point2D p3 = new Point2D(x + size / 2, y - size);
@@ -171,8 +173,9 @@ namespace lads0
 
         private void ClearScene_Click(object sender, RoutedEventArgs e)
         {
-            ClearScene();
+            ClearAll();
         }
+
 
         private void MoveShape_Click(object sender, RoutedEventArgs e)
         {
@@ -181,18 +184,68 @@ namespace lads0
 
             if (tr != null)
             {
-                tr.AddX(deltaX);
-                tr.AddY(deltaY);
+                bool canMoveX = true;
+                bool canMoveY = true;
+
+                Point2D[] points = new Point2D[] { tr.P1, tr.P2, tr.P3 };
+
+                foreach (var p in points)
+                {
+                    int newX = p.X + deltaX;
+                    int newY = p.Y + deltaY;
+
+                    if (newX < 10 || newX > Scene.Width - 10)
+                        canMoveX = false;
+                    if (newY < 10 || newY > Scene.Height - 10)
+                        canMoveY = false;
+                }
+
+                if (canMoveX)
+                    tr.AddX(deltaX);
+                if (canMoveY)
+                    tr.AddY(deltaY);
+
                 ClearScene();
                 DrawTriangle(tr);
             }
             else if (rect != null)
             {
-                rect.AddX(deltaX);
-                rect.AddY(deltaY);
+                Point2D[] points = rect.GetPoints();
+                bool canMoveX = true;
+                bool canMoveY = true;
+
+                foreach (var p in points)
+                {
+                    int newX = p.X + deltaX;
+                    int newY = p.Y + deltaY;
+
+                    if (newX < 10 || newX > Scene.Width - 10)
+                        canMoveX = false;
+                    if (newY < 10 || newY > Scene.Height - 10)
+                        canMoveY = false;
+                }
+
+                if (canMoveX)
+                    rect.AddX(deltaX);
+                if (canMoveY)
+                    rect.AddY(deltaY);
+
                 ClearScene();
                 DrawRectangle(rect);
             }
+
+            SliderX.Value = 0;
+            SliderY.Value = 0;
+        }
+
+        private void SliderX_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            MoveShape_Click(sender, e);
+        }
+
+        private void SliderY_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            MoveShape_Click(sender, e);
         }
     }
 }
