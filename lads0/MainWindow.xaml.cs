@@ -61,5 +61,15 @@ namespace lads0
         {
             Scene.Children.Clear();
         }
+
+        public void DrawRectangle(Rectangle rect)
+        {
+            Point2D[] points = rect.GetPoints();
+
+            DrawLine(points[0], points[1]);
+            DrawLine(points[1], points[2]);
+            DrawLine(points[2], points[3]);
+            DrawLine(points[3], points[0]);
+        }
     }
 }
