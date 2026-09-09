@@ -1,7 +1,11 @@
 ﻿<Window x:Class="lads0.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="550" Width="950">
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:lads0"
+        mc:Ignorable="d"
+        Title="Геометрические фигуры" Height="550" Width="950">
     <Grid>
         <Canvas x:Name="Scene" 
                 HorizontalAlignment="Left" 
@@ -12,12 +16,16 @@
                 Background="White"/>
 
         <StackPanel Margin="710,30,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
-            <Label Content="Случайные фигуры" FontWeight="Bold"/>
+
+            <Label Content="Случайные фигуры" FontWeight="Bold" FontSize="14"/>
             <Button Content="Случайный треугольник" Width="150" Margin="0,5" Click="RandomTriangle_Click"/>
             <Button Content="Случайный прямоугольник" Width="150" Margin="0,5" Click="RandomRectangle_Click"/>
             <Button Content="Случайный квадрат" Width="150" Margin="0,5" Click="RandomSquare_Click"/>
 
-            <Label Content="Задать параметры" FontWeight="Bold" Margin="0,15,0,0"/>
+            <Separator Margin="0,10,0,10"/>
+
+            <Label Content="Задать параметры" FontWeight="Bold" FontSize="14"/>
+
             <Grid Margin="0,5,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="60"/>
@@ -26,6 +34,7 @@
                 <Label Content="X:" Grid.Column="0"/>
                 <TextBox x:Name="InputX" Grid.Column="1" Text="100" Width="80"/>
             </Grid>
+
             <Grid Margin="0,5,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="60"/>
@@ -34,6 +43,7 @@
                 <Label Content="Y:" Grid.Column="0"/>
                 <TextBox x:Name="InputY" Grid.Column="1" Text="100" Width="80"/>
             </Grid>
+
             <Grid Margin="0,5,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="60"/>
@@ -42,16 +52,22 @@
                 <Label Content="Размер:" Grid.Column="0"/>
                 <TextBox x:Name="InputSize" Grid.Column="1" Text="80" Width="80"/>
             </Grid>
+
             <Button Content="Нарисовать квадрат" Width="150" Margin="0,10" Click="DrawSquare_Click"/>
             <Button Content="Нарисовать треугольник" Width="150" Margin="0,5" Click="DrawTriangle_Click"/>
 
-            <Label Content="Перемещение" FontWeight="Bold" Margin="0,15,0,0"/>
+            <Separator Margin="0,10,0,10"/>
+
+            <Label Content="Перемещение" FontWeight="Bold" FontSize="14"/>
             <Label Content="Сдвиг по X" Margin="0,5,0,0"/>
-            <Slider x:Name="SliderX" Width="150" Minimum="-100" Maximum="100" Value="0"/>
+            <Slider x:Name="SliderX" Width="150" Minimum="-100" Maximum="100" Value="0" ValueChanged="SliderX_ValueChanged"/>
             <Label Content="Сдвиг по Y" Margin="0,5,0,0"/>
-            <Slider x:Name="SliderY" Width="150" Minimum="-100" Maximum="100" Value="0"/>
+            <Slider x:Name="SliderY" Width="150" Minimum="-100" Maximum="100" Value="0" ValueChanged="SliderY_ValueChanged"/>
             <Button Content="Переместить" Width="150" Margin="0,10" Click="MoveShape_Click"/>
+
+            <Separator Margin="0,10,0,10"/>
             <Button Content="Очистить сцену" Width="150" Margin="0,5" Click="ClearScene_Click"/>
+
         </StackPanel>
     </Grid>
 </Window>
